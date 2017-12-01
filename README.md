@@ -1,14 +1,9 @@
-# aoc2017
+# Advent Of Code 2017
 
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
+Giving it a shot in Clojure.
 
 ## License
 
-Copyright © 2017 FIXME
+Copyright © 2017 Ivan Habunek
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the MIT license.
