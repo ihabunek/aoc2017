@@ -1,5 +1,4 @@
-(ns aoc2017.core
-  (:require [aoc2017.day01 :as d1]))
+(ns aoc2017.core)
 
 (defn get-ns-symbol [day]
   (symbol
@@ -11,9 +10,9 @@
   (if (re-matches #"^\d{1,2}$" day)
     (let [ns-sym (get-ns-symbol day)]
       (try
-        (let [main (ns-resolve ns-sym 'main)]
-          (println (str "Advent of code 2017, day " day))
-          (apply main args))
+        (require ns-sym)
+        (println (str "Advent of code 2017, day " day))
+        (apply (ns-resolve ns-sym 'main) args)
         (catch Exception e
-          (println (str "Cannot find namespace: " ns-sym)))))
+          (println (.getMessage e)))))
     (println "Invalid day given.")))
