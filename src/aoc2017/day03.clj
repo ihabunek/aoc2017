@@ -6,12 +6,11 @@
   "Directions of movement, clockwise starting with up."
   (cycle '((1 0) (0 1) (-1 0) (0 -1))))
 
+
 (def distances
   "Distances of movement: 1, 1, 2, 2, 3, 3, ..."
-  (->> (range)
-       (map inc)
-       (map #(repeat 2 %))
-       (apply concat)))
+  (map inc
+    (interleave (range) (range))))
 
 (def movements
   "Movements through the grid."
