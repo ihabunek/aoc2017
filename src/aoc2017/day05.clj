@@ -9,30 +9,27 @@
        split-lines
        (mapv read-string)))
 
-(defn solve1 [moves]
-  (loop [moves (transient moves) position 0 counter 1]
-    (let [move (get moves position)
-          next-position (+ position move)]
-      (if (nil? (get moves next-position))
-        counter
-        (recur
-          (assoc! moves position (inc move))
-          next-position
-          (inc counter))))))
+(defn next1! [moves move position]
+  (assoc! moves position (inc move)))
 
-(defn solve2 [moves]
-  (loop [moves (transient moves) position 0 counter 1]
+(defn next2! [moves move position]
+  (assoc! moves position
+    (if (> move 2) (dec move) (inc move))))
+
+(defn solve [moves next-moves]
+  (loop [moves (transient moves)
+         position 0
+         counter 1]
     (let [move (get moves position)
           next-position (+ position move)]
       (if (nil? (get moves next-position))
         counter
         (recur
-          (assoc! moves position
-            (if (> move 2) (dec move) (inc move)))
+          (next-moves moves move position)
           next-position
           (inc counter))))))
 
 (defn main []
   (let [moves (parse-input (slurp input-file))]
-    (println "First part solved in" (time (solve1 moves)) "steps")
-    (println "Second part solved in" (time (solve2 moves)) "steps")))
+    (println "First part solved in" (time (solve moves next1!)) "steps")
+    (println "Second part solved in" (time (solve moves next2!)) "steps")))
