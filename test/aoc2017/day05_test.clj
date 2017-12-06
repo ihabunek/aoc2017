@@ -3,5 +3,5 @@
             [aoc2017.day05 :refer :all]))
 
 (deftest test-solve
-  (is (= (solve [0 3 0 1 -3]) 5)))
-
+  (is (= (solve [0 3 0 1 -3] next1!) 5))
+  (is (= (solve [0 3 0 1 -3] next2!) 10)))
