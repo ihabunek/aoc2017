@@ -2,3 +2,6 @@
 
 (defn parse-int [str]
   (Integer/parseInt str))
+
+(defn abs [n]
+  (max n (- n)))
