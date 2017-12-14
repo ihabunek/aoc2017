@@ -9,11 +9,6 @@
   (map parse-int
     (s/split input #",")))
 
-(def input2
-  (concat
-    (map int input)
-    '(17 31 73 47 23)))
-
 (defn rotate
   "Rotate a circular coll for n positions. n can be negative."
   [coll n]
@@ -66,9 +61,18 @@
   (apply str
     (map #(format "%02x" %) dense-hash)))
 
+(defn knot-hash-input [s]
+  (concat
+    (map int s)
+    '(17 31 73 47 23)))
+
+(defn knot-hash [input]
+  (to-hex
+    (condense
+      (solve2 (range 256) (knot-hash-input input)))))
+
 (defn main []
   (let [lst (range 256)
-        [sol1 _ _] (solve1 lst input1)
-        sol2 (solve2 lst input2)]
+        [sol1 _ _] (solve1 lst input1)]
     (println "Sum of first two numbers is" (time (reduce * (take 2 sol1))))
-    (println "Knot hex solution is" (time (to-hex (condense sol2))))))
+    (println "Knot hex solution is" (time (knot-hash input)))))
