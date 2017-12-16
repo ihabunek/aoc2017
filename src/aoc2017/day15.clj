@@ -7,11 +7,15 @@
 (def inc-b 48271)
 (def gen-mod 2147483647)
 
-(defn generator [start diff m]
-  (let [next (mod (*' start diff) m)]
-    (lazy-seq
-      (cons next
-        (generator next diff m)))))
+(defn generator [start delta divisor]
+  (iterate
+    (fn [x] (mod (*' x delta) divisor))
+    start))
+
+  ; (let [next (mod (* start diff) m)]
+  ;   (lazy-seq
+  ;     (cons next
+  ;       (generator next diff m)))))
 
 (defn generator2 [start diff m1 m2]
   (filter #(zero? (mod % m2))
@@ -19,7 +23,9 @@
 
 (defn same-lower-bits? [a b]
   (= (bit-and a 0xffff) (bit-and b 0xffff)))
-  ; alternatively: (= (mod a 65536) (mod b 65536)))
+  ; alternatives:
+  ; (= (unchecked-short a) (unchecked-short b)))
+  ; (= (mod a 65536) (mod b 65536)))
 
 (defn solve [gen-a gen-b]
   (loop [gen-a gen-a gen-b gen-b counter 0]
@@ -42,5 +48,7 @@
     (take 5000000 (generator2 start-b inc-b gen-mod 8))))
 
 (defn main []
+  (set! *unchecked-math* :warn-on-boxed)
+  (set! *warn-on-reflection* true)
   (println "Count 1:" (time (solve1)))
   (println "Count 2:" (time (solve2))))
