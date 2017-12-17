@@ -1,7 +1,5 @@
 (ns aoc2017.day17)
 
-(set! *warn-on-reflection* true)
-
 (defn rotate [coll n]
   (if (empty? coll)
     coll

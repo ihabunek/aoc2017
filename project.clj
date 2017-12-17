@@ -4,4 +4,6 @@
   :license {:name "MIT License"
             :url "https://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.9.0-RC2"]]
-  :main aoc2017.core)
+  :main aoc2017.core
+  :global-vars {*warn-on-reflection* true
+                *assert* false})
