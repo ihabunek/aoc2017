@@ -1,5 +1,7 @@
 (ns aoc2017.day17)
 
+(set! *warn-on-reflection* true)
+
 (defn rotate [coll n]
   (if (empty? coll)
     coll
@@ -16,7 +18,7 @@
         (cons value (rotate buffer (inc delta)))
         (inc value)))))
 
-(defn solve2 [n delta]
+(defn solve2 [^long n ^long delta]
   (loop [value 1 pos 1 second 1]
     (if (> value n)
       second
