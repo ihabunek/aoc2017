@@ -8,3 +8,6 @@
 
 (defn index-of [coll e]
   (first (keep-indexed #(if (= e %2) %1) coll)))
+
+(defn is-letter [c]
+  (Character/isLetter ^char c))
