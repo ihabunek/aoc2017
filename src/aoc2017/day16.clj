@@ -11,9 +11,9 @@
   (let [move (keyword (subs line 0 1))
         rest (subs line 1)]
     (list move (case move
-                 :p (->> (split rest #"/") (map keyword))
-                 :s (list (parse-int rest))
-                 :x (->> (split rest #"/") (map parse-int))))))
+                 partner (->> (split rest #"/") (map keyword))
+                 spin (list (parse-int rest))
+                 exchange (->> (split rest #"/") (map parse-int))))))
 
 (defn parse-input [input]
   (->> (split input #",")
@@ -73,11 +73,12 @@
     (cycle index)))
 
 (defn main []
-  (let [moves (parse-input input)
+  (let [moves (take 10 (parse-input input))
         programs (make-programs 16)]
-    ; "Elapsed time: 100.728047 msecs"
-    (println "After the first dance positions are:"
-      (dump (time (apply-moves programs moves))))
-    ; "Elapsed time: 2790.029917 msecs"
-    (println "One billionth iteration is:"
-      (dump (time (iterate programs moves 1000000000))))))
+    (println moves)))
+    ; ; "Elapsed time: 100.728047 msecs"
+    ; (println "After the first dance positions are:"
+    ;   (dump (time (apply-moves programs moves))))
+    ; ; "Elapsed time: 2790.029917 msecs"
+    ; (println "One billionth iteration is:"
+    ;   (dump (time (iterate programs moves 1000000000))))))
