@@ -49,7 +49,7 @@
     (take 4 (iterate rotate (vflip image)))
     (take 4 (iterate rotate (hflip image)))))
 
-(defn find-next [image rules]
+(defn find-next [rules image]
   (loop [vs (variants image)]
     (if (empty? vs)
       (throw (Throwable. (str "Cannot find rule for " (fmt-line image)))))
@@ -95,18 +95,19 @@
       (flatten image))))
 
 (defn solve [start-image rules limit]
-  (loop [image start-image
-         counter limit]
-    (if (zero? counter)
-      (count-pixels image)
-      (let [images (partition-image image)
-            next-images (map #(find-next % rules) images)
-            next-image (join-images next-images)]
-        (recur next-image (dec counter))))))
+  (let [find-next (memoize (partial find-next rules))]
+    (loop [image start-image
+           counter limit]
+      (if (zero? counter)
+        (count-pixels image)
+        (let [images (partition-image image)
+              next-images (map find-next images)
+              next-image (join-images next-images)]
+          (recur next-image (dec counter)))))))
 
 (defn main []
   (let [rules (parse-input input)]
     (println "Pixels after 5 iterations:" (time (solve start rules 5)))
-    ; "Elapsed time: 30.785062 msecs"))
+    ; "Elapsed time: 7.642709 msecs"
     (println "Pixels after 18 iterations:" (time (solve start rules 18)))))
-    ; "Elapsed time: 152569.048427 msecs"
+    ; "Elapsed time: 108308.088678 msecs"))
