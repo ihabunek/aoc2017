@@ -44,21 +44,10 @@
   (map vflip image))
 
 (defn variants [image]
-  (let [r0 image
-        r1 (rotate r0)
-        r2 (rotate r1)
-        r3 (rotate r2)
-        vfr0 (vflip image)
-        vfr1 (rotate vfr0)
-        vfr2 (rotate vfr1)
-        vfr3 (rotate vfr2)
-        hfr0 (hflip image)
-        hfr1 (rotate hfr0)
-        hfr2 (rotate hfr1)
-        hfr3 (rotate hfr2)]
-    (set [r0 r1 r2 r3
-          vfr0 vfr1 vfr2 vfr3
-          hfr0 hfr1 hfr2 hfr3])))
+  (concat
+    (take 4 (iterate rotate image))
+    (take 4 (iterate rotate (vflip image)))
+    (take 4 (iterate rotate (hflip image)))))
 
 (defn find-next [image rules]
   (loop [vs (variants image)]
