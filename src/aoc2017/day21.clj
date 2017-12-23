@@ -44,10 +44,11 @@
   (map vflip image))
 
 (defn variants [image]
-  (concat
-    (take 4 (iterate rotate image))
-    (take 4 (iterate rotate (vflip image)))
-    (take 4 (iterate rotate (hflip image)))))
+  (distinct
+    (concat
+      (take 4 (iterate rotate image))
+      (take 4 (iterate rotate (vflip image)))
+      (take 4 (iterate rotate (hflip image))))))
 
 (defn find-next [rules image]
   (loop [vs (variants image)]
@@ -56,6 +57,9 @@
     (if-let [rule (get rules (first vs))]
       rule
       (recur (rest vs)))))
+
+(defn find-next-fn [rules]
+  (memoize (partial find-next rules)))
 
 (defn sub-image [image size x y]
   (map #(take size (drop x %))
@@ -95,7 +99,7 @@
       (flatten image))))
 
 (defn solve [start-image rules limit]
-  (let [find-next (memoize (partial find-next rules))]
+  (let [find-next (find-next-fn rules)]
     (loop [image start-image
            counter limit]
       (if (zero? counter)
@@ -109,5 +113,5 @@
   (let [rules (parse-input input)]
     (println "Pixels after 5 iterations:" (time (solve start rules 5)))
     ; "Elapsed time: 7.642709 msecs"
-    (println "Pixels after 18 iterations:" (time (solve start rules 18)))))
+    (println "Pixels after 12 iterations:" (time (solve start rules 12)))))
     ; "Elapsed time: 108308.088678 msecs"))
